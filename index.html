@@ -4,312 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GTA VI Konzol Infók - Felbontás és FPS adatok (PS5, Xbox)</title>
-    <meta name="description" content="Minden fontos részlet a GTA VI konzolos verzióiról. PS5, PS5 Pro, Xbox Series X és Series S adatok egy helyen.">
-    <meta name="keywords" content="GTA VI, GTA 6, PS5, PS5 Pro, Xbox Series X, Xbox Series S, felbontás, FPS">
-    <meta name="robots" content="index, follow">
     <style>
         @import url('https://googleapis.com');
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0f051d 0%, #290b4e 50%, #090214 100%);
-            min-height: 100vh;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
+            min-height: 100vh; color: #ffffff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+            position: relative; overflow-x: hidden;
         }
-
-        /* Pálmafák fix, biztosan betöltődő beágyazott SVG-vel */
         body::before {
-            content: "";
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            content: ""; position: fixed; bottom: 0; left: 0; width: 100%; height: 100%;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 800 600" opacity="0.15"><path d="M80 600 C 90 450, 130 350, 200 300 C 150 260, 100 280, 50 320 C 40 250, 80 200, 160 220 C 130 150, 180 100, 240 160 C 260 210, 240 260, 210 290 C 280 320, 320 400, 330 600 Z" fill="%23ec4899"/><path d="M720 600 C 710 420, 650 320, 570 280 C 620 240, 680 260, 730 310 C 740 230, 690 180, 610 200 C 640 130, 580 80, 520 150 C 500 200, 520 250, 550 280 C 470 310, 430 400, 420 600 Z" fill="%238b5cf6"/></svg>');
-            background-position: bottom center;
-            background-size: cover;
-            pointer-events: none;
-            z-index: 0;
+            background-position: bottom center; background-size: cover; pointer-events: none; z-index: 0;
         }
-
         .container {
-            width: 100%;
-            max-width: 750px;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid rgba(236, 72, 153, 0.4);
-            box-shadow: 0 0 25px rgba(236, 72, 153, 0.25);
-            position: relative;
-            z-index: 10;
+            width: 100%; max-width: 750px; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px; padding: 30px; border: 1px solid rgba(236, 72, 153, 0.4); box-shadow: 0 0 25px rgba(236, 72, 153, 0.25); position: relative; z-index: 10;
         }
-
         h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(236, 72, 153, 0.3);
+            font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .button-grid {
-            display: grid;
-            grid-template-cols: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        @media (max-width: 600px) {
-            .button-grid {
-                grid-template-cols: repeat(2, 1fr);
-            }
-            h1 { font-size: 1.8rem; }
-        }
-
-        .console-btn {
-            background: rgba(88, 28, 135, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            color: #ffffff;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            font-size: 0.95rem;
-        }
-
-        .console-btn:hover {
-            background: rgba(168, 85, 247, 0.3);
-        }
-
-        .console-btn.active {
-            background: linear-gradient(90deg, #ec4899 0%, #8b5cf6 100%);
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
-            transform: scale(1.03);
-        }
-
-        .info-panel {
-            background: rgba(88, 28, 135, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.1);
-            border-radius: 16px;
-            padding: 10px 20px;
-            margin-bottom: 25px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #d8b4fe;
-            font-weight: 500;
-        }
-
-        .info-value {
-            font-weight: 700;
-            text-align: right;
-        }
-
-        #stat-resolution { color: #f3e8ff; }
-        #stat-fps { color: #facc15; }
-        #stat-graphics { color: #f3e8ff; }
-        #stat-tech { color: #22d3ee; }
-
-        .power-section {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid rgba(168, 85, 247, 0.1);
-        }
-
-        .power-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #d8b4fe;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        #power-percentage {
-            color: #ec4899;
-        }
-
-        .bar-container {
-            width: 100%;
-            background: rgba(88, 28, 135, 0.4);
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
-            padding: 2px;
-            border: 1px solid rgba(88, 28, 135, 0.5);
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
-            border-radius: 10px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(90deg, #4c1d95, #1e1b4b);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            padding: 12px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        #toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .button-grid { display: grid; grid-template-cols: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+        @media (max-width: 600px) { .button-grid { grid-template-cols: repeat(2, 1fr); } h1 { font-size: 1.8rem; } }
+        .console-btn { background: rgba(88, 28, 135, 0.2); border: 1px solid rgba(168, 85, 247, 0.3); color: #ffffff; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; font-size: 0.95rem; text-align: center; width: 100%; }
+        .console-btn:hover { background: rgba(168, 85, 247, 0.3); }
+        .console-btn.active { background: linear-gradient(90deg, #ec4899 0%, #8b5cf6 100%); border-color: transparent; box-shadow: 0 0 15px rgba(236, 72, 153, 0.5); transform: scale(1.03); }
+        .info-panel { background: rgba(88, 28, 135, 0.1); border: 1px solid rgba(168, 85, 247, 0.1); border-radius: 16px; padding: 10px 20px; margin-bottom: 25px; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(168, 85, 247, 0.1); }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #d8b4fe; font-weight: 500; }
+        .info-value { font-weight: 700; text-align: right; }
+        #stat-resolution { color: #f3e8ff; } #stat-fps { color: #facc15; } #stat-graphics { color: #f3e8ff; } #stat-tech { color: #22d3ee; }
+        .power-section { background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 15px; border: 1px solid rgba(168, 85, 247, 0.1); }
+        .power-header { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #d8b4fe; margin-bottom: 8px; }
+        #power-percentage { color: #ec4899; }
+        .bar-container { width: 100%; background: rgba(88, 28, 135, 0.4); height: 12px; border-radius: 10px; overflow: hidden; padding: 2px; border: 1px solid rgba(88, 28, 135, 0.5); }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e); border-radius: 10px; transition: width 0.8s ease; }
+        #toast { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(90deg, #4c1d95, #1e1b4b); border: 1px solid rgba(168, 85, 247, 0.4); padding: 12px 24px; border-radius: 12px; display: flex; align-items: center; gap: 10px; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 100; }
+        #toast.show { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>GTA VI Konzol Infók</h1>
-
         <div class="button-grid">
             <button onclick="selectConsole('ps5')" id="btn-ps5" class="console-btn">PS5</button>
             <button onclick="selectConsole('ps5pro')" id="btn-ps5pro" class="console-btn">PS5 Pro</button>
             <button onclick="selectConsole('xboxx')" id="btn-xboxx" class="console-btn">Xbox X</button>
             <button onclick="selectConsole('xboxs')" id="btn-xboxs" class="console-btn">Xbox S</button>
         </div>
-
         <div class="info-panel">
-            <div class="info-row">
-                <span class="info-label">Felbontás:</span>
-                <span id="stat-resolution" class="info-value">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Célzott FPS:</span>
-                <span id="stat-fps" class="info-value">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Grafikai szint:</span>
-                <span id="stat-graphics" class="info-value">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Technológia:</span>
-                <span id="stat-tech" class="info-value">-</span>
-            </div>
+            <div class="info-row"><span class="info-label">Felbontás:</span><span id="stat-resolution" class="info-value">-</span></div>
+            <div class="info-row"><span class="info-label">Célzott FPS:</span><span id="stat-fps" class="info-value">-</span></div>
+            <div class="info-row"><span class="info-label">Grafikai szint:</span><span id="stat-graphics" class="info-value">-</span></div>
+            <div class="info-row"><span class="info-label">Technológia:</span><span id="stat-tech" class="info-value">-</span></div>
         </div>
-
         <div class="power-section">
-            <div class="power-header">
-                <span>Becsült optimalizáltság és grafikai erő:</span>
-                <span id="power-percentage">0%</span>
-            </div>
-            <div class="bar-container">
-                <div id="power-bar" class="progress-bar"></div>
-            </div>
+            <div class="power-header"><span>Becsült optimalizáltság és grafikai erő:</span><span id="power-percentage">0%</span></div>
+            <div class="bar-container"><div id="power-bar" class="progress-bar"></div></div>
         </div>
     </div>
-
-    <div id="toast">
-        <span>⚡</span>
-        <span id="toast-text" style="font-size: 0.9rem; font-weight: 600;"></span>
-    </div>
-
+    <div id="toast"><span>⚡</span><span id="toast-text"></span></div>
     <script>
         const consoleData = {
-            ps5: {
-                resolution: "Dinamikus 4K (FSR felskálázás)",
-                fps: "30 FPS / Stabilizált",
-                graphics: "Magas / Sugárkövetés (Ray Tracing)",
-                tech: "AMD FSR 3.0",
-                power: 75,
-                msg: "PlayStation 5 profil betöltve!"
-            },
-            ps5pro: {
-                resolution: "Valódi 4K / PSSR felskálázás",
-                fps: "60 FPS (Performance) / 30 FPS",
-                graphics: "Ultra / Fejlett Ray Tracing",
-                tech: "Sony PSSR (AI alapú)",
-                power: 95,
-                msg: "PlayStation 5 Pro mód aktív!"
-            },
-            xboxx: {
-                resolution: "Dinamikus 4K (Magasabb alapbázis)",
-                fps: "30 FPS / Stabilizált",
-                graphics: "Magas / Sugárkövetés (Ray Tracing)",
-                tech: "AMD FSR 3.0 Hardware",
-                power: 78,
-                msg: "Xbox Series X adatok frissítve!"
-            },
-            xboxs: {
-                resolution: "Dinamikus 1080p - 1440p",
-                fps: "30 FPS",
-                graphics: "Közepes / Optimalizált",
-                tech: "Szoftveres FSR / S-SRE",
-                power: 45,
-                msg: "Xbox Series S mód kiválasztva."
-            }
+            ps5: { resolution: "Dinamikus 4K (FSR felskálázás)", fps: "30 FPS / Stabilizált", graphics: "Magas / Sugárkövetés", tech: "AMD FSR 3.0", power: 75, msg: "PlayStation 5 profil betöltve!" },
+            ps5pro: { resolution: "Valódi 4K / PSSR felskálázás", fps: "60 FPS (Performance) / 30 FPS", graphics: "Ultra / Fejlett Ray Tracing", tech: "Sony PSSR (AI alapú)", power: 95, msg: "PlayStation 5 Pro mód aktív!" },
+            xboxx: { resolution: "Dinamikus 4K (Magasabb alapbázis)", fps: "30 FPS / Stabilizált", graphics: "Magas / Sugárkövetés", tech: "AMD FSR 3.0 Hardware", power: 78, msg: "Xbox Series X adatok frissítve!" },
+            xboxs: { resolution: "Dinamikus 1080p - 1440p", fps: "30 FPS", graphics: "Közepes / Optimalizált", tech: "Szoftveres FSR / S-SRE", power: 45, msg: "Xbox Series S mód kiválasztva." }
         };
-
         function selectConsole(consoleId) {
-document.querySelectorAll('.console-btn').forEach(btn => {
-btn.classList.remove('active');
-});
-document.getElementById(btn-${consoleId}).classList.add('active');
-const data = consoleData[consoleId];
-document.getElementById('stat-resolution').innerText = data.resolution;
-document.getElementById('stat-fps').innerText = data.fps;
-document.getElementById('stat-graphics').innerText = data.graphics;
-document.getElementById('stat-tech').innerText = data.tech;
-document.getElementById('power-percentage').innerText = data.power + '%';
-document.getElementById('power-bar').style.width = data.power + '%';
-showToast(data.msg);
-}
-function showToast(text) {
-const toast = document.getElementById('toast');
-document.getElementById('toast-text').innerText = text;
-toast.classList.add('show');
-setTimeout(() => {
-toast.classList.remove('show');
-}, 3000);
-}
+            document.querySelectorAll('.console-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${consoleId}`).classList.add('active');
+            const data = consoleData[consoleId];
+            document.getElementById('stat-resolution').innerText = data.resolution;
+            document.getElementById('stat-fps').innerText = data.fps;
+            document.getElementById('stat-graphics').innerText = data.graphics;
+            document.getElementById('stat-tech').innerText = data.tech;
+            document.getElementById('power-percentage').innerText = data.power + '%';
+            document.getElementById('power-bar').style.width = data.power + '%';
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = data.msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
